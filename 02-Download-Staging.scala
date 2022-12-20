@@ -36,9 +36,10 @@ dbutils.fs.mkdirs(deltaPath)
 
 // COMMAND ----------
 
-// DBTITLE 1,create mesh schema
+// DBTITLE 1,Initialize mesh schema
 // MAGIC %sql
-// MAGIC CREATE DATABASE IF NOT EXISTS mesh_nct
+// MAGIC DROP DATABASE IF EXISTS mesh_nct CASCADE;
+// MAGIC CREATE DATABASE mesh_nct;
 
 // COMMAND ----------
 

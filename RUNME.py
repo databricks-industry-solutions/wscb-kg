@@ -122,6 +122,25 @@ job_json = {
                         "task_key": "wscb_04"
                     }
                 ]
+            },
+            {
+                "job_cluster_key": "wscb_cluster",
+                "notebook_task": {
+                    "notebook_path": f"05-Querying-Insights"
+                },
+                "libraries": [
+                    {
+                        "maven": {
+                            "coordinates": "wisecubeai:graphster:0.1.1"
+                        }
+                    }
+                ],
+                "task_key": "wscb_06",
+                "depends_on": [
+                    {
+                        "task_key": "wscb_05"
+                    }
+                ]
             }
         ],
         "job_clusters": [

@@ -36,7 +36,7 @@ import spark.implicits
 
 // COMMAND ----------
 
-// MAGIC %run ./01-config
+// MAGIC %run ./01_config
 
 // COMMAND ----------
 

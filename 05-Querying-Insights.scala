@@ -21,7 +21,7 @@ import spark.implicits
 
 // COMMAND ----------
 
-// MAGIC %run "./1.0 Wisecube Demo (Config)"
+// MAGIC %run "./01-config"
 
 // COMMAND ----------
 

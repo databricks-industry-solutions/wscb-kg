@@ -97,6 +97,7 @@ results.createOrReplaceTempView("barainDiseasesResults")
 // COMMAND ----------
 
 // MAGIC %md
+// MAGIC #TODO : skip this analysis
 // MAGIC ### Brain Neoplasms
 // MAGIC Now we will pull all trials that study a condition that is a subtype of brain neoplasms, along with their title and date. First the code finds the entity that has name "Brain Neoplasms".
 // MAGIC 
@@ -104,21 +105,21 @@ results.createOrReplaceTempView("barainDiseasesResults")
 
 // COMMAND ----------
 
-val query = """
-    |SELECT ?trial ?title ?date
-    |WHERE {
-    | ?brain_neoplasms rdfs:label ?label .
-    | FILTER(REGEX(?label, "^Brain Neoplasms$", "i"))
-    | ?brain_neoplasms rdf:type mv:TopicalDescriptor .
-    | ?trial rdf:type schema:MedicalTrial .
-    | ?trial schema:healthCondition ?c .
-    | ?c mv:broaderDescriptor* ?brain_neoplasms .
-    | ?trial schema:startDate ?date .
-    | ?trial rdfs:label ?title .
-    |}
-    |""".stripMargin
+// val query = """
+//     |SELECT ?trial ?title ?date
+//     |WHERE {
+//     | ?brain_neoplasms rdfs:label ?label .
+//     | FILTER(REGEX(?label, "^Brain Neoplasms$", "i"))
+//     | ?brain_neoplasms rdf:type mv:TopicalDescriptor .
+//     | ?trial rdf:type schema:MedicalTrial .
+//     | ?trial schema:healthCondition ?c .
+//     | ?c mv:broaderDescriptor* ?brain_neoplasms .
+//     | ?trial schema:startDate ?date .
+//     | ?trial rdfs:label ?title .
+//     |}
+//     |""".stripMargin
 
-val results = triples.sparql(queryConfig, query).convertResults(Map())
+// val results = triples.sparql(queryConfig, query).convertResults(Map())
 
 // COMMAND ----------
 
@@ -127,23 +128,23 @@ val results = triples.sparql(queryConfig, query).convertResults(Map())
 
 // COMMAND ----------
 
-val parsedResults = results.withColumn("year", sf.year($"date")).persist()
+// val parsedResults = results.withColumn("year", sf.year($"date")).persist()
 
 // COMMAND ----------
 
-parsedResults.createOrReplaceTempView("barainNeoplasmsResults")
+// parsedResults.createOrReplaceTempView("barainNeoplasmsResults")
 
 // COMMAND ----------
 
-// MAGIC %sql
-// MAGIC CREATE OR REPLACE TABLE
-// MAGIC     mesh_nct.barain_neoplasms_results
-// MAGIC     AS (SELECT * from barainNeoplasmsResults)
+-- %sql
+-- CREATE OR REPLACE TABLE
+--     mesh_nct.barain_neoplasms_results
+--     AS (SELECT * from barainNeoplasmsResults)
 
 // COMMAND ----------
 
-// MAGIC %sql
-// MAGIC SELECT count(*) from mesh_nct.barain_neoplasms_results
+-- %sql
+-- SELECT count(*) from mesh_nct.barain_neoplasms_results
 
 // COMMAND ----------
 
@@ -247,6 +248,11 @@ parsedResults.createOrReplaceTempView("barainNeoplasmsResults")
 
 // COMMAND ----------
 
+// MAGIC %md
+// MAGIC ## TODO : add a SPARKQL query to fecth all trails with galantamine as intev and look at dates etc 
+
+// COMMAND ----------
+
 // MAGIC %sql
 // MAGIC SELECT cond, lower(condLabel) as condLabel, numTrials as n_trials, interv, lower(intervLabel) as intervLabel
 // MAGIC     from mesh_nct.brain_diseases
@@ -254,4 +260,15 @@ parsedResults.createOrReplaceTempView("barainNeoplasmsResults")
 
 // COMMAND ----------
 
+// MAGIC %md
+// MAGIC ## TODO complete the query and visualize 
 
+// COMMAND ----------
+
+// MAGIC %md
+// MAGIC ```
+// MAGIC val query = """
+// MAGIC     <galantamine interv from the graph>""".stripMargin
+// MAGIC 
+// MAGIC val results = triples.sparql(queryConfig, query).convertResults(Map())
+// MAGIC ```

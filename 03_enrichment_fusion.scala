@@ -54,7 +54,7 @@ val interventionsDF = spark.table("mesh_nct.interventions")
 // COMMAND ----------
 
 // MAGIC %md
-// MAGIC ## 2. Transform studies
+// MAGIC ## 2. Transform Studies
 // MAGIC Now we build a pipeline to transform the `studies` table into a set of triples.
 // MAGIC 
 // MAGIC 1. `removeUntitled` - remove the trials with blank titles
@@ -62,10 +62,6 @@ val interventionsDF = spark.table("mesh_nct.interventions")
 // MAGIC 3. `nctFirstDate` - define the triple for the property that represents the trial submission date
 // MAGIC 4. `nctBriefTitle` - define the triple that assigns the label (brief title)
 // MAGIC 5. `nctOfficialTitle` - define the triple for the property that represents the trial official title
-
-// COMMAND ----------
-
-// MAGIC %md
 
 // COMMAND ----------
 

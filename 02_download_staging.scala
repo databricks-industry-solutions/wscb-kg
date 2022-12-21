@@ -1,7 +1,10 @@
 // Databricks notebook source
 // MAGIC %md
 // MAGIC # Creating a Knowledge Graph from MeSH and Clinical Trials
-// MAGIC 
+
+// COMMAND ----------
+
+// MAGIC %md
 // MAGIC ## Setting up the data
 // MAGIC 
 // MAGIC This notebook will go through the download and staging of the data we will be using. The graphster library includes a module for downloading data sets. This module has both MeSH and clinical trials download utilities. 
@@ -32,7 +35,7 @@ dbutils.fs.mkdirs(deltaPath)
 // MAGIC %md
 // MAGIC 
 // MAGIC ### 1. Add MeSH
-// MAGIC Add MeSH dataset
+// MAGIC Now we add MeSH dataset
 
 // COMMAND ----------
 

@@ -37,32 +37,96 @@ job_json = {
         "max_concurrent_runs": 1,
         "tags": {
             "usage": "solacc_testing",
-            "group": "SOLACC"
+            "group": "HLS"
         },
         "tasks": [
             {
-                "job_cluster_key": "sample_solacc_cluster",
+                "job_cluster_key": "wscb_cluster",
                 "notebook_task": {
-                    "notebook_path": f"01_Introduction_And_Setup"
+                    "notebook_path": f"00_README"
                 },
-                "task_key": "sample_solacc_01"
+                "task_key": "wscb_01"
             },
             {
-                "job_cluster_key": "sample_solacc_cluster",
+                "job_cluster_key": "wscb_cluster",
                 "notebook_task": {
-                    "notebook_path": f"02_Analysis"
+                    "notebook_path": f"01_config"
                 },
-                "task_key": "sample_solacc_02",
+                "libraries": [
+                    {
+                        "maven": {
+                            "coordinates": "wisecubeai:graphster:0.1.1"
+                        }
+                    }
+                ],
+                "task_key": "wscb_02",
                 "depends_on": [
                     {
-                        "task_key": "sample_solacc_01"
+                        "task_key": "wscb_01"
+                    }
+                ]
+            },
+            {
+                "job_cluster_key": "wscb_cluster",
+                "notebook_task": {
+                    "notebook_path": f"02_download_staging"
+                },
+                "libraries": [
+                    {
+                        "maven": {
+                            "coordinates": "wisecubeai:graphster:0.1.1"
+                        }
+                    }
+                ],
+                "task_key": "wscb_03",
+                "depends_on": [
+                    {
+                        "task_key": "wscb_02"
+                    }
+                ]
+            },
+            {
+                "job_cluster_key": "wscb_cluster",
+                "notebook_task": {
+                    "notebook_path": f"03_enrichment_fusion"
+                },
+                "libraries": [
+                    {
+                        "maven": {
+                            "coordinates": "wisecubeai:graphster:0.1.1"
+                        }
+                    }
+                ],
+                "task_key": "wscb_04",
+                "depends_on": [
+                    {
+                        "task_key": "wscb_03"
+                    }
+                ]
+            },
+            {
+                "job_cluster_key": "wscb_cluster",
+                "notebook_task": {
+                    "notebook_path": f"04_querying_derived_graph"
+                },
+                "libraries": [
+                    {
+                        "maven": {
+                            "coordinates": "wisecubeai:graphster:0.1.1"
+                        }
+                    }
+                ],
+                "task_key": "wscb_05",
+                "depends_on": [
+                    {
+                        "task_key": "wscb_04"
                     }
                 ]
             }
         ],
         "job_clusters": [
             {
-                "job_cluster_key": "sample_solacc_cluster",
+                "job_cluster_key": "wscb_cluster",
                 "new_cluster": {
                     "spark_version": "11.3.x-cpu-ml-scala2.12",
                 "spark_conf": {

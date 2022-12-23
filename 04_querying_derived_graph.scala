@@ -80,14 +80,14 @@ val results = triples.sparql(queryConfig, query).convertResults(Map("numTrials" 
 
 // COMMAND ----------
 
-results.createOrReplaceTempView("barainDiseasesResults")
+results.createOrReplaceTempView("brainDiseasesResults")
 
 // COMMAND ----------
 
 // MAGIC %sql
 // MAGIC CREATE OR REPLACE TABLE
 // MAGIC     mesh_nct.brain_diseases
-// MAGIC     AS (SELECT * from barainDiseasesResults)
+// MAGIC     AS (SELECT * from brainDiseasesResults)
 
 // COMMAND ----------
 
@@ -272,3 +272,25 @@ results.createOrReplaceTempView("barainDiseasesResults")
 // MAGIC 
 // MAGIC val results = triples.sparql(queryConfig, query).convertResults(Map())
 // MAGIC ```
+
+// COMMAND ----------
+
+val query = """
+    |PREFIX schema: <http://schema.org/>
+    |PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    |
+    |SELECT ?trial ?title ?date
+    |WHERE {
+    | ?trial schema:studySubject ?intev .
+    | ?intev rdfs:label ?intevName . 
+    | FILTER(REGEX(?intevName, "galantamine", "i") )
+    | ?trial schema:startDate ?date .
+    | ?trial rdfs:label ?title .
+    |}
+    |""".stripMargin
+
+val results = triples.sparql(queryConfig, query).convertResults(Map())
+
+// COMMAND ----------
+
+display(results)

@@ -2,6 +2,8 @@
 # MAGIC %md
 # MAGIC #Creating a Knowledge Graph from MeSH and Clinical Trials
 # MAGIC 
+# MAGIC <img src="https://www.nlm.nih.gov/pubs/techbull/jf11/graphics/mesh_db_fig1.gif">
+# MAGIC 
 # MAGIC Knowledge Graphs are used to represent real-world entities and the relationships between them, and are often built by collecting and integrating data from a variety of sources.
 # MAGIC An important step in creating a knowledge graph is Data Fusion. Data fusion is the process of combining data from multiple sources into a single, coherent representation. It is often used in situations where there are multiple data sources that are providing information about the same phenomenon, and the goal is to use this information to make more accurate inferences or decisions.
 # MAGIC 
@@ -24,10 +26,19 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ## Data
+# MAGIC ## Data 
+# MAGIC [![](https://mermaid.ink/img/pako:eNptUEFqwzAQ_MqiUwtx6KUX0xgS26GFpLRJb1YPa2vtCGQpSHJCSfL3ynbS9lAdFjEzO7PMiVVGEItZrcyx2qH1sNpwDeHNC85f08ULrGn7zPnniC4CmiqpZYXqw0pUbtqYA8Tw-AAeS0UOIqjcYVi4GkXTKEkLgR5BmKNWBsXN7X9qJNOBTAvnsZG6eSptApXRtWw6i14a_atMZ7MkK-7W5HbQm5Xo6P6akfU2eTHgUHduXOyZceY9n92sBvWy2L7NN-8rGDJLi1KDkI6CqwOpPdkD6f4C93PCMoqS856sk84PW2MZ5-xvFJuwlmyLUoTGTz3Gmd9RS5zF4Suoxk55zri-BGm3DydTLqQ3lsV1qJomDDtvtl-6YrG3Hd1EmcTGYntVXb4BCZ-Wdw)](https://mermaid-js.github.io/mermaid-live-editor/edit/#pako:eNptUEFqwzAQ_MqiUwtx6KUX0xgS26GFpLRJb1YPa2vtCGQpSHJCSfL3ynbS9lAdFjEzO7PMiVVGEItZrcyx2qH1sNpwDeHNC85f08ULrGn7zPnniC4CmiqpZYXqw0pUbtqYA8Tw-AAeS0UOIqjcYVi4GkXTKEkLgR5BmKNWBsXN7X9qJNOBTAvnsZG6eSptApXRtWw6i14a_atMZ7MkK-7W5HbQm5Xo6P6akfU2eTHgUHduXOyZceY9n92sBvWy2L7NN-8rGDJLi1KDkI6CqwOpPdkD6f4C93PCMoqS856sk84PW2MZ5-xvFJuwlmyLUoTGTz3Gmd9RS5zF4Suoxk55zri-BGm3DydTLqQ3lsV1qJomDDtvtl-6YrG3Hd1EmcTGYntVXb4BCZ-Wdw)
+# MAGIC 
+# MAGIC ### MeSH Dataset
 # MAGIC NCBI [MeSH](https://www.nlm.nih.gov/databases/download/mesh.html) (Medical Subject Headings) is a comprehensive controlled vocabulary for the purpose of indexing biomedical literature. The MeSH dataset is a collection of terms and definitions that describe the various topics and concepts in the field of biomedicine. These terms are organized into a hierarchical structure, with broader terms at the top and more specific terms at the bottom. The MeSH dataset is used by researchers, clinicians, and other healthcare professionals to search for and retrieve relevant articles and other resources from the biomedical literature. It is maintained by the National Center for Biotechnology Information (NCBI) at the National Institutes of Health (NIH). 
 # MAGIC 
 # MAGIC For building a knowledge graph, setting up the configuration is the foundation. Specifically, keeping all the data source specific, and schema specific references. Let's look at how we built the config for this knowledge graph.
+# MAGIC 
+# MAGIC ### Clinical Trials Data
+# MAGIC To build a clinical trails knowledge graph, we fuse MeSH graph with clinical trials data, obtained from [ClinicalTrials.gov](https://aact.ctti-clinicaltrials.org/). This dataset which is regularly updated, contains information about all current and past trials for a given condition and the intervention that has been used. Note that this dataset is in tabular (csv) format. Using the [Configuration notebook]($./01_config) we setup parameters to be used for data fusion in the [Enrichment and Fusion notebook]($./03_enrichment_fusion).
+# MAGIC 
+# MAGIC ### Analysis
+# MAGIC Finally we show how to [query]($./04_querying_derived_graph) the derived graph using [SPARQL](https://en.wikipedia.org/wiki/SPARQL) query language directly on databricks to gain insights for all trials for Brain Diseases.
 
 # COMMAND ----------
 
@@ -50,12 +61,7 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ##TODO: Can we update this to call out three clouds (AWS, Azure and GCP) and also specifically call out DELTA and databricks SQL? 
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC ## Graphster
+# MAGIC ## Graphster Library
 # MAGIC [Graphster](https://github.com/wisecubeai/graphster) is an open-source knowledge graph library. It is a spark-based library purpose-built for scalable, end-to-end knowledge graph construction and querying from unstructured and structured source data. The graphster library takes a collection of documents, extracts mentions and relations to populate a raw knowledge graph, links mentions to entities in Wikidata, and then enriches the knowledge graph with facts from Wikidata. Once the knowledge graph is built, graphster can also help natively query the knowledge graph using SPARQL.
 # MAGIC 
 # MAGIC In this solution accelerator we showcase an end-to-end example of using this library to build a KG for clinical trials data.

@@ -9,10 +9,8 @@ import com.graphster.orpheus.config.Configuration
 import com.graphster.orpheus.config.graph.NodeConf
 import com.graphster.orpheus.query.Query.implicits._
 import org.apache.spark.sql.{functions => sf}
-import org.apache.spark.sql.expressions.Window  
-
+import org.apache.spark.sql.expressions.Window
 import scala.language.postfixOps
-
 import spark.implicits
 
 // COMMAND ----------
@@ -97,59 +95,7 @@ results.createOrReplaceTempView("brainDiseasesResults")
 // COMMAND ----------
 
 // MAGIC %md
-// MAGIC #TODO : skip this analysis
-// MAGIC ### Brain Neoplasms
-// MAGIC Now we will pull all trials that study a condition that is a subtype of brain neoplasms, along with their title and date. First the code finds the entity that has name "Brain Neoplasms".
-// MAGIC 
-// MAGIC One thing to note here is that we are finding the brain neoplasms entity from the string "Brain Neoplasms". `REGEX` in SPARQL can be slow, but it allows us to get the entity without having to manually look up the ID. In most triple stores, this could result in a time-out, but since we are querying on Spark, we can easily scale out the processing.
-
-// COMMAND ----------
-
-// val query = """
-//     |SELECT ?trial ?title ?date
-//     |WHERE {
-//     | ?brain_neoplasms rdfs:label ?label .
-//     | FILTER(REGEX(?label, "^Brain Neoplasms$", "i"))
-//     | ?brain_neoplasms rdf:type mv:TopicalDescriptor .
-//     | ?trial rdf:type schema:MedicalTrial .
-//     | ?trial schema:healthCondition ?c .
-//     | ?c mv:broaderDescriptor* ?brain_neoplasms .
-//     | ?trial schema:startDate ?date .
-//     | ?trial rdfs:label ?title .
-//     |}
-//     |""".stripMargin
-
-// val results = triples.sparql(queryConfig, query).convertResults(Map())
-
-// COMMAND ----------
-
-// MAGIC %md
-// MAGIC Now, let's add the year for each trial.
-
-// COMMAND ----------
-
-// val parsedResults = results.withColumn("year", sf.year($"date")).persist()
-
-// COMMAND ----------
-
-// parsedResults.createOrReplaceTempView("barainNeoplasmsResults")
-
-// COMMAND ----------
-
--- %sql
--- CREATE OR REPLACE TABLE
---     mesh_nct.barain_neoplasms_results
---     AS (SELECT * from barainNeoplasmsResults)
-
-// COMMAND ----------
-
--- %sql
--- SELECT count(*) from mesh_nct.barain_neoplasms_results
-
-// COMMAND ----------
-
-// MAGIC %md
-// MAGIC ## Analysis and Data VIZ
+// MAGIC ## Analysis and Data Visualization
 
 // COMMAND ----------
 
@@ -208,7 +154,7 @@ results.createOrReplaceTempView("brainDiseasesResults")
 
 // COMMAND ----------
 
-// DBTITLE 1,Construct the network
+// DBTITLE 1,construct the network
 // MAGIC %py
 // MAGIC G=nx.Graph()
 // MAGIC edge_list =[[m[1]['cond'],m[1]['interv'],m[1]['n_trials']] for m in brain_diseases_gpdf[['cond','interv','n_trials']].iterrows()]
@@ -244,37 +190,12 @@ results.createOrReplaceTempView("brainDiseasesResults")
 // COMMAND ----------
 
 // MAGIC %md 
-// MAGIC Here we see that most of the interventions have only one condition which they are connected. There is only one exception to this, [Galantamine](https://medlineplus.gov/druginfo/meds/a699058.html) 
+// MAGIC Here we see that most of the interventions have only one condition which they are connected. There is only one exception to this, [Galantamine](https://medlineplus.gov/druginfo/meds/a699058.html).
+// MAGIC Now let's query the graph to get all interventions involving galantamine:
 
 // COMMAND ----------
 
-// MAGIC %md
-// MAGIC ## TODO : add a SPARKQL query to fecth all trails with galantamine as intev and look at dates etc 
-
-// COMMAND ----------
-
-// MAGIC %sql
-// MAGIC SELECT cond, lower(condLabel) as condLabel, numTrials as n_trials, interv, lower(intervLabel) as intervLabel
-// MAGIC     from mesh_nct.brain_diseases
-// MAGIC     where lower(intervLabel)='galantamine'
-
-// COMMAND ----------
-
-// MAGIC %md
-// MAGIC ## TODO complete the query and visualize 
-
-// COMMAND ----------
-
-// MAGIC %md
-// MAGIC ```
-// MAGIC val query = """
-// MAGIC     <galantamine interv from the graph>""".stripMargin
-// MAGIC 
-// MAGIC val results = triples.sparql(queryConfig, query).convertResults(Map())
-// MAGIC ```
-
-// COMMAND ----------
-
+// DBTITLE 1,all interventions with Galantamine
 val query = """
     |PREFIX schema: <http://schema.org/>
     |PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -290,7 +211,4 @@ val query = """
     |""".stripMargin
 
 val results = triples.sparql(queryConfig, query).convertResults(Map())
-
-// COMMAND ----------
-
 display(results)

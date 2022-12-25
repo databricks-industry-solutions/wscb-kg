@@ -5,11 +5,6 @@
 
 // COMMAND ----------
 
-// MAGIC %sql
-// MAGIC DESCRIBE DATABASE mesh_nct
-
-// COMMAND ----------
-
 // DBTITLE 1,Imports
 import com.graphster.orpheus.config.Configuration
 import com.graphster.orpheus.data.datasets.{ClinicalTrials, MeSH}
@@ -24,6 +19,22 @@ import spark.implicits
 
 // COMMAND ----------
 
+// MAGIC %sql
+// MAGIC DESCRIBE DATABASE mesh_nct
+
+// COMMAND ----------
+
+// MAGIC %md
+// MAGIC Now let's take a look at the number of triples in the graph before enrichment
+
+// COMMAND ----------
+
+// DBTITLE 1,count of triples before enrichment
+// MAGIC %sql
+// MAGIC select count(*) from mesh_nct.mesh_nct
+
+// COMMAND ----------
+
 // MAGIC %md
 // MAGIC 
 // MAGIC ## 1. Enrichment & Fusion
@@ -32,7 +43,7 @@ import spark.implicits
 // COMMAND ----------
 
 // MAGIC %md
-// MAGIC First let's run `01-config` notebook to get the config
+// MAGIC First let's run [config]($./01_config) notebook to get the config
 
 // COMMAND ----------
 
@@ -293,7 +304,3 @@ graph.createOrReplaceTempView("allMeshNct")
 
 // MAGIC %sql
 // MAGIC select count(*) from mesh_nct.mesh_nct
-
-// COMMAND ----------
-
-

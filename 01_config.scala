@@ -1,7 +1,7 @@
 // Databricks notebook source
 // MAGIC %md
-// MAGIC # Configuration
-// MAGIC In this notebook we configure our knowledge graph.
+// MAGIC # Creating a Knowledge Graph from MeSH and Clinical Trials: Config
+// MAGIC In this notebook we set up the initial configurations for our knowledge graph.
 
 // COMMAND ----------
 
@@ -77,7 +77,7 @@ val nameConfig = LangLiteralGraphConf(ColumnValueConf("name"), StringValueConf("
 
 // MAGIC %md
 // MAGIC 
-// MAGIC #### 3. Property Extraction
+// MAGIC ## 3. Property Extraction
 // MAGIC 
 // MAGIC As with the entities, we are not extracting properties from MeSH, as we are fusing data from clinical trials into the MeSH graph.
 // MAGIC 

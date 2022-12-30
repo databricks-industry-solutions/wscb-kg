@@ -1,4 +1,4 @@
-#Creating a Knowledge Graph from MeSH and Clinical Trials
+# Creating a Knowledge Graph from MeSH and Clinical Trials
 
 <img src="https://www.nlm.nih.gov/pubs/techbull/jf11/graphics/mesh_db_fig1.gif">
 

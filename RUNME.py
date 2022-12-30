@@ -43,14 +43,14 @@ job_json = {
             {
                 "job_cluster_key": "wscb_cluster",
                 "notebook_task": {
-                    "notebook_path": f"00-README"
+                    "notebook_path": f"00_README"
                 },
                 "task_key": "wscb_01"
             },
             {
                 "job_cluster_key": "wscb_cluster",
                 "notebook_task": {
-                    "notebook_path": f"01-config"
+                    "notebook_path": f"01_config"
                 },
                 "libraries": [
                     {
@@ -69,7 +69,7 @@ job_json = {
             {
                 "job_cluster_key": "wscb_cluster",
                 "notebook_task": {
-                    "notebook_path": f"02-Download-Staging"
+                    "notebook_path": f"02_download_staging"
                 },
                 "libraries": [
                     {
@@ -88,7 +88,7 @@ job_json = {
             {
                 "job_cluster_key": "wscb_cluster",
                 "notebook_task": {
-                    "notebook_path": f"03-Enrichment-Fusion"
+                    "notebook_path": f"03_enrichment_fusion"
                 },
                 "libraries": [
                     {
@@ -107,7 +107,7 @@ job_json = {
             {
                 "job_cluster_key": "wscb_cluster",
                 "notebook_task": {
-                    "notebook_path": f"04-Querying-Derived-Graph"
+                    "notebook_path": f"04_querying_derived_graph"
                 },
                 "libraries": [
                     {

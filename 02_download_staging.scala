@@ -1,8 +1,11 @@
 // Databricks notebook source
 // MAGIC %md
 // MAGIC # Creating a Knowledge Graph from MeSH and Clinical Trials
-// MAGIC 
-// MAGIC ## Setting up the data
+
+// COMMAND ----------
+
+// MAGIC %md
+// MAGIC ## Data Download
 // MAGIC 
 // MAGIC This notebook will go through the download and staging of the data we will be using. The graphster library includes a module for downloading data sets. This module has both MeSH and clinical trials download utilities. 
 // MAGIC 
@@ -32,14 +35,13 @@ dbutils.fs.mkdirs(deltaPath)
 // MAGIC %md
 // MAGIC 
 // MAGIC ### 1. Add MeSH
-// MAGIC Add MeSH dataset
+// MAGIC Now we add MeSH dataset
 
 // COMMAND ----------
 
-// DBTITLE 1,Initialize mesh schema
+// DBTITLE 1,create mesh schema
 // MAGIC %sql
-// MAGIC DROP DATABASE IF EXISTS mesh_nct CASCADE;
-// MAGIC CREATE DATABASE mesh_nct;
+// MAGIC CREATE DATABASE IF NOT EXISTS mesh_nct
 
 // COMMAND ----------
 
@@ -51,11 +53,15 @@ dbutils.fs.mkdirs(deltaPath)
 val filepath: String = MeSH.download()
 dbutils.fs.mv("file:" + filepath, dataPath + "mesh.nt")
 val meshDF = MeSH.load(dataPath + "mesh.nt")
+meshDF.createOrReplaceTempView("allMeshNct")
 
 // COMMAND ----------
 
 // DBTITLE 1,save mesh data
-meshDF.write.format("delta").saveAsTable("mesh_nct.mesh")
+// MAGIC %sql
+// MAGIC CREATE OR REPLACE TABLE
+// MAGIC     mesh_nct.mesh_nct
+// MAGIC     AS (SELECT * from allMeshNct)
 
 // COMMAND ----------
 
@@ -71,6 +77,7 @@ meshDF.write.format("delta").saveAsTable("mesh_nct.mesh")
 
 // MAGIC %sql
 // MAGIC select * from mesh_nct.mesh
+// MAGIC limit 10
 
 // COMMAND ----------
 
@@ -119,8 +126,4 @@ println("NCT interventions", spark.table("mesh_nct.interventions").count())
 
 // MAGIC %sql
 // MAGIC select * from mesh_nct.studies
-// MAGIC limit 20
-
-// COMMAND ----------
-
-
+// MAGIC limit 10

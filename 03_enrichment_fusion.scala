@@ -5,11 +5,6 @@
 
 // COMMAND ----------
 
-// MAGIC %sql
-// MAGIC DESCRIBE DATABASE mesh_nct
-
-// COMMAND ----------
-
 // DBTITLE 1,Imports
 import com.graphster.orpheus.config.Configuration
 import com.graphster.orpheus.data.datasets.{ClinicalTrials, MeSH}
@@ -24,6 +19,22 @@ import spark.implicits
 
 // COMMAND ----------
 
+// MAGIC %sql
+// MAGIC DESCRIBE DATABASE mesh_nct
+
+// COMMAND ----------
+
+// MAGIC %md
+// MAGIC Now let's take a look at the number of triples in the graph before enrichment
+
+// COMMAND ----------
+
+// DBTITLE 1,count of triples before enrichment
+// MAGIC %sql
+// MAGIC select count(*) from mesh_nct.mesh_nct
+
+// COMMAND ----------
+
 // MAGIC %md
 // MAGIC 
 // MAGIC ## 1. Enrichment & Fusion
@@ -32,11 +43,11 @@ import spark.implicits
 // COMMAND ----------
 
 // MAGIC %md
-// MAGIC First let's run `01-config` notebook to get the config
+// MAGIC First let's run [config]($./01_config) notebook to get the config
 
 // COMMAND ----------
 
-// MAGIC %run ./01-config
+// MAGIC %run ./01_config
 
 // COMMAND ----------
 
@@ -54,7 +65,7 @@ val interventionsDF = spark.table("mesh_nct.interventions")
 // COMMAND ----------
 
 // MAGIC %md
-// MAGIC ## 2. Transform studies
+// MAGIC ## 2. Transform Studies
 // MAGIC Now we build a pipeline to transform the `studies` table into a set of triples.
 // MAGIC 
 // MAGIC 1. `removeUntitled` - remove the trials with blank titles
@@ -62,10 +73,6 @@ val interventionsDF = spark.table("mesh_nct.interventions")
 // MAGIC 3. `nctFirstDate` - define the triple for the property that represents the trial submission date
 // MAGIC 4. `nctBriefTitle` - define the triple that assigns the label (brief title)
 // MAGIC 5. `nctOfficialTitle` - define the triple for the property that represents the trial official title
-
-// COMMAND ----------
-
-// MAGIC %md
 
 // COMMAND ----------
 
@@ -297,7 +304,3 @@ graph.createOrReplaceTempView("allMeshNct")
 
 // MAGIC %sql
 // MAGIC select count(*) from mesh_nct.mesh_nct
-
-// COMMAND ----------
-
-

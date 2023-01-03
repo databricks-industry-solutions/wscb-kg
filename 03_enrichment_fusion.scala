@@ -1,4 +1,8 @@
 // Databricks notebook source
+// MAGIC %md This notebook is available at https://github.com/databricks-industry-solutions/wscb-kg
+
+// COMMAND ----------
+
 // MAGIC %md
 // MAGIC # Creating a Knowledge Graph from MeSH and Clinical Trials
 // MAGIC Now we are ready to create the KG by fusing clinical trials data and MeSH. In this notebook, we will use the transformers in the graphster library to enrich and fuse the data sets.

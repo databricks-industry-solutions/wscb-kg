@@ -1,4 +1,8 @@
 // Databricks notebook source
+// MAGIC %md This notebook is available at https://github.com/databricks-industry-solutions/wscb-kg
+
+// COMMAND ----------
+
 // MAGIC %md
 // MAGIC # Creating a Knowledge Graph from MeSH and Clinical Trials: Config
 // MAGIC In this notebook we set up the initial configurations for our knowledge graph.

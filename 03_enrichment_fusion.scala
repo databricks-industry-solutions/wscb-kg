@@ -35,12 +35,12 @@ import spark.implicits
 
 // DBTITLE 1,count of triples before enrichment
 // MAGIC %sql
-// MAGIC select count(*) from mesh_nct.mesh_nct
+// MAGIC select count(*) from mesh_nct.mesh
 
 // COMMAND ----------
 
 // MAGIC %md
-// MAGIC 
+// MAGIC
 // MAGIC ## 1. Enrichment & Fusion
 // MAGIC In order to turn data into knowledge, we need to add meaning, semantics. The data stored in a table does not have an automatic interpretation. Column names, and documentation can add this meaning, but these do not let us combine the knowledge that the table was built from, with other data. In order to synthesize new knowledge and create insights, we need to establish common elements between data sets. Storing this data in a single common schema allows researchers to speak a common language between different data sources with a shared understanding and semantics. Unfortunately, this semantic layer is often ignored in modern data lakes and is usually an afterthought.
 
@@ -57,7 +57,7 @@ import spark.implicits
 
 // MAGIC %md
 // MAGIC We will be merging in three tables with the MeSH data. The `studies` table contains details about clinical trials themselves, the `conditions` table contains information about the condition being studied, and the `interventions` table which is about the interventions in the trial.
-// MAGIC 
+// MAGIC
 // MAGIC Let's load these files that we will be transforming.
 
 // COMMAND ----------
@@ -71,7 +71,7 @@ val interventionsDF = spark.table("mesh_nct.interventions")
 // MAGIC %md
 // MAGIC ## 2. Transform Studies
 // MAGIC Now we build a pipeline to transform the `studies` table into a set of triples.
-// MAGIC 
+// MAGIC
 // MAGIC 1. `removeUntitled` - remove the trials with blank titles
 // MAGIC 2. `nctType` - define the triple that assigns the type to the trial entities
 // MAGIC 3. `nctFirstDate` - define the triple for the property that represents the trial submission date
@@ -142,7 +142,7 @@ val nctPipeline = new Pipeline().setStages(Array(
 // MAGIC %md
 // MAGIC ## 3. Transform Conditions and Intervantions
 // MAGIC We perform similar extraction the `conditions` and `interventions` tables.
-// MAGIC 
+// MAGIC
 // MAGIC 1. `condRemoveUnamed` - remove the conditions without names
 // MAGIC 2. `condLinker` - link the condition into the MeSH graph using the `name` column and the `rdfs:label` property
 // MAGIC 3. `condType` - define the triple that assigns the type to the condition
@@ -273,9 +273,9 @@ val graph = spark.table("mesh_nct.mesh").unionAll(nctTriples).distinct()
 // COMMAND ----------
 
 // MAGIC %md
-// MAGIC 
+// MAGIC
 // MAGIC Now we have a graph that is the result of fusing MeSH with extracted data from clinical trials. These conditions and interventions in clinical trials, which were just strings associated to trial, now are connected to the millions of facts available in MeSH. Similarly, the knowledge already present in the MeSH knowledge graph, mainly hierarchical and type relationship, is now connected to real world facts.
-// MAGIC 
+// MAGIC
 // MAGIC Let's look at how many facts we found with this relatively simple set of pipelines.
 
 // COMMAND ----------

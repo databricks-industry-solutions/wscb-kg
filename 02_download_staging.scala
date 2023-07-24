@@ -10,9 +10,9 @@
 
 // MAGIC %md
 // MAGIC ## Data Download
-// MAGIC 
+// MAGIC
 // MAGIC This notebook will go through the download and staging of the data we will be using. The graphster library includes a module for downloading data sets. This module has both MeSH and clinical trials download utilities. 
-// MAGIC 
+// MAGIC
 // MAGIC We will stage the data as tables. The MeSH data already comes in a graph format, NTriples. The clinical trials data comes as a collection of pipe-seperated-values files. We will create tables from the MeSH file as well as each clinical trials file.
 
 // COMMAND ----------
@@ -37,7 +37,7 @@ dbutils.fs.mkdirs(deltaPath)
 // COMMAND ----------
 
 // MAGIC %md
-// MAGIC 
+// MAGIC
 // MAGIC ### 1. Add MeSH
 // MAGIC Now we add MeSH dataset
 
@@ -64,7 +64,7 @@ meshDF.createOrReplaceTempView("allMeshNct")
 // DBTITLE 1,save mesh data
 // MAGIC %sql
 // MAGIC CREATE OR REPLACE TABLE
-// MAGIC     mesh_nct.mesh_nct
+// MAGIC     mesh_nct.mesh
 // MAGIC     AS (SELECT * from allMeshNct)
 
 // COMMAND ----------
@@ -87,7 +87,7 @@ meshDF.createOrReplaceTempView("allMeshNct")
 
 // MAGIC %md
 // MAGIC ### 2. Add Clinical Trials
-// MAGIC 
+// MAGIC
 // MAGIC The clinical trials data is more complicated. It comes as a set of 50 CSVs (pipe separated). Here we will just loop over each file, and create the table.
 
 // COMMAND ----------

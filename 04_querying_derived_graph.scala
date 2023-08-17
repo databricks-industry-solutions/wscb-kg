@@ -1,5 +1,5 @@
 // Databricks notebook source
-// MAGIC %md This notebook is available at https://github.com/databricks-industry-solutions/wscb-kg
+// MAGIC %md This notebook is available at https://github.com/databricks-industry-solutions/wscb-kg. For more information about this solution accelerator, visit https://www.databricks.com/solutions/accelerators/rd-optimization-with-knowledge-graphs.
 
 // COMMAND ----------
 
@@ -25,15 +25,15 @@ import spark.implicits
 
 // MAGIC %md
 // MAGIC ## Querying & Derived Graph
-// MAGIC 
+// MAGIC
 // MAGIC By integrating biomedical data in an connected manner helps in quick retrieval of hidden insights. These semantic networks also help reduce errors and increase chances of making a discovery in a cost-effective manner. For uncovering hidden correlations between medical data, analysts use different techniques like link prediction. By visually exploring these correlations between medical entities, scientists can make timely decisions on sensitive treatment options.
-// MAGIC 
+// MAGIC
 // MAGIC In this notebook we will query our graph on Spark, using the query module. This module is powered by the Bellman library from GSK.
 
 // COMMAND ----------
 
 // MAGIC %md
-// MAGIC 
+// MAGIC
 // MAGIC First, we will transform the graph into the format that Bellman requires for querying.
 
 // COMMAND ----------

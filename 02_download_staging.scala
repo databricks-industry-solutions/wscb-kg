@@ -1,5 +1,5 @@
 // Databricks notebook source
-// MAGIC %md This notebook is available at https://github.com/databricks-industry-solutions/wscb-kg
+// MAGIC %md This notebook is available at https://github.com/databricks-industry-solutions/wscb-kg. For more information about this solution accelerator, visit https://www.databricks.com/solutions/accelerators/rd-optimization-with-knowledge-graphs.
 
 // COMMAND ----------
 
